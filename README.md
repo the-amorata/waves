@@ -12,7 +12,7 @@ SSH into your instance.
 
 Do this swap file thing you don't fully understand
 
-```
+```bash
 sudo fallocate -l 1G /swapfile
 sudo chmod 600 /swapfile
 sudo mkswap /swapfile
@@ -33,18 +33,17 @@ sudo yum install -y --nogpgcheck rstudio-server-rhel-0.99.903-x86_64.rpm
 
 Install [Shiny][] (and other packages (from within `R`))
 
-```
-install.packages("shiny")
-install.packages("ggplot2")
-install.packages("data.table")
-install.packages("tuneR")
+```r
+pkgs = c('shiny', 'data.table',  'tuneR', 
+         'colourpicker', 'extrafont', 'shinyjs')
+lapply(pkgs, install.packages); rm(pkgs)
 ```
 
 *You probably want use the* `0-Cloud` *source for CRAN*
 
 Install shiny-server
 
-```
+```bash
 wget https://download3.rstudio.org/centos5.9/x86_64/shiny-server-1.4.1.759-rh5-x86_64.rpm
 sudo yum install -y --nogpgcheck shiny-server-1.4.1.759-rh5-x86_64.rpm
 ```
@@ -53,7 +52,8 @@ Install git
 
 `sudo yum install git-core`
 
-
+And then mostly follow these instructions. Especially as the sections 
+"Initial Set Up" and "Synchronsising with Github."
 
 
 
