@@ -6,7 +6,7 @@ Andres & Dan Fonseca decided to get in over their heads.
 
 Launch an EC2 instance with amazon's base AMI.
 
-Let it listen on port `8787` and `3838`
+Allow traffic on port `8787` and `3838`
 
 SSH into your instance.
 
