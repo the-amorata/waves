@@ -4,7 +4,7 @@ Andres & Dan Fonseca decided to get in over their heads.
 
 ### Set Up
 
-Launch an EC2 instance with amazon's base AMI.
+Launch an [EC2][] instance with amazon's base AMI.
 
 Let it listen on port `8787` and `3838`
 
@@ -31,7 +31,7 @@ wget https://download2.rstudio.org/rstudio-server-rhel-0.99.903-x86_64.rpm
 sudo yum install -y --nogpgcheck rstudio-server-rhel-0.99.903-x86_64.rpm
 ```
 
-Install Shiny (and other packages (from within `R`))
+Install [Shiny][] (and other packages (from within `R`))
 
 ```
 install.packages("shiny")
@@ -53,3 +53,9 @@ Install git
 
 `sudo yum install git-core`
 
+----------
+
+<!-- links -->
+[shiny]: http://shiny.rstudio.com/
+[ec2]: http://aws.amazon.com/ec2/
+[aws]: https://aws.amazon.com/
