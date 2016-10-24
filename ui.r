@@ -1,4 +1,4 @@
-source("~/ShinyApps/waves/util.r")
+source("~/apps/waves/util.r")
 
 df = c('#6784A9','#96CDC2','#F58C8D','#BC94C1','#C27186','#E7D49F')
 waves_id = 21393505797
@@ -21,7 +21,7 @@ fluidPage(
   
   fluidRow(
     column(4,
-      fluidRow(column(12, h1(' W A V E S - D E V'))),
+      fluidRow(column(12, h1('W A V E S'))),
       fluidRow(
         column(6,
           selectInput('image_size',  'Choose A Product',  image_sizes)),
@@ -43,6 +43,11 @@ fluidPage(
       ),
       hr(),
       helpText(
+        "Don't have an MP3?",
+        a("Use a YouTube video", 
+          href = 'http://www.youtube-mp3.org/',
+          target='_blank'),
+        br(),
         'File not an MP3?', 
         a("Convert it.", 
           href='http://audio.online-convert.com/convert-to-mp3', 

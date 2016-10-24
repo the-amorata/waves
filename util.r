@@ -2,16 +2,16 @@ pkgs = c('shiny', 'data.table',  'tuneR',
          'colourpicker', 'extrafont', 'shinyjs')
 lapply(pkgs, library, character.only = TRUE); rm(pkgs)
 
-# ex <- list(lab = 'yoo', hex = '#6784A9', det = '+1', fam = 'Medium', fl = 1, 
-#            mag = 3, lw = 3, is = 'Left Pocket (3X2)', ss = 'M', sc = 'Black',
-#            mp3 = list(datapath = '~/ShinyApps/waves-dev/Adventure.mp3', name = 'Aventure.mp3'))
+ex <- list(lab = 'yoo', hex = '#6784A9', det = '+1', fam = 'Medium', fl = 1,
+           mag = 3, lw = 3, is = 'Left Pocket (3X2)', ss = 'M', sc = 'Black',
+           mp3 = list(datapath = '~/apps/waves/Adventure.mp3', name = 'Aventure.mp3'))
 
 rm_punct <- function(x) gsub('[[:punct:]]| |.mp3$', '', x)
 mk_filename <- function(x) paste(rm_punct(x), collapse = '_')
 
 mk_url <- function(x) {
   url_base = 'http://amorata.myshopify.com/cart/21393505797:1?note='
-  pattern = '~/ShinyApps/waves-dev/plots/|.png'
+  pattern = '~/apps/waves/plots/|.png'
   paste0(url_base, gsub(pattern, '', x))
 }
 
@@ -27,7 +27,7 @@ set_par <- function(x) {
 save_wave <- function(rv) {
   i = 10; w = 300*i; h = w*(2/3)
   new_fn = mk_filename(c((rv$mp3)$name, Sys.time(), rv$ss, rv$is, rv$sc))
-  fn = paste0('~/ShinyApps/waves-dev/plots/', new_fn, '.png')
+  fn = paste0('~/apps/waves/plots/', new_fn, '.png')
   png(file=fn, width=w, height=h, res=300)
   return(fn)
 }

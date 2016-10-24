@@ -1,4 +1,4 @@
-source("~/ShinyApps/waves-dev/util.r")
+source("~/apps/waves/util.r")
 function(input, output, session) { 
   
   #Plot Parameters
@@ -57,3 +57,4 @@ function(input, output, session) {
   })
       
 }
+  
