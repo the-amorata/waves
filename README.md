@@ -102,7 +102,8 @@ Clone the repo (inside `/home/your_username/apps/`)!
 
 Then open the `waves-dev.Rproj file` (or like (switch to it, you know))
 
-
+There is some trouble shooting you may have to do on this bit in the 
+future but you get the idea.
 
 
 
