@@ -24,7 +24,7 @@ to the end of it (`sudo vim /etc/fstab`)
 
 Install R  with `sudo yum install -y R`
 
-Install Rstudio-Server
+Install [Rstudio-Server][]
 
 ```
 wget https://download2.rstudio.org/rstudio-server-rhel-0.99.903-x86_64.rpm
@@ -53,9 +53,16 @@ Install git
 
 `sudo yum install git-core`
 
+
+
+
+
+
+
+
 ----------
 
 <!-- links -->
 [shiny]: http://shiny.rstudio.com/
 [ec2]: http://aws.amazon.com/ec2/
-[aws]: https://aws.amazon.com/
+[rstudio-server]: https://www.rstudio.com/products/rstudio/download-server/
