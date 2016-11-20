@@ -1,6 +1,7 @@
 # W A V E S
 
 Andres & Dan Fonseca decided to get in over their heads.
+This is influenced by [the following instructions][].
 
 ### Set Up
 
@@ -108,7 +109,21 @@ future but you get the idea. You may have to do one of these
 
 `git remote set-url origin git@github.com:username/repo.git`
 
+### SSL Stuff??
 
+```
+sudo -i
+mkdir /etc/ssl/private/
+touch /etc/ssl/private/apache.key
+openssl genrsa -out /etc/ssl/private/apache.key 2048
+openssl req -new -x509 -key /etc/ssl/private/apache.key -days 365 -sha256 -out /etc/ssl/certs/apache.crt
+```
+
+This will ask you a few questions. The only crucial part is the Common Name. Here you need to enter the public DNS name or the public IP of your AWS instance. Again, note, that normally you would enter a domain name that you own, e.g. ‘shiny.ipub.com’ in my case. If you are just goofing around, enter the public DNS of your instance.
+
+```
+yum install httpd
+```
 
 
 ----------
@@ -118,3 +133,4 @@ future but you get the idea. You may have to do one of these
 [ec2]: http://aws.amazon.com/ec2/
 [rstudio-server]: https://www.rstudio.com/products/rstudio/download-server/
 [these instructions]: http://r-pkgs.had.co.nz/git.html
+[the following instructions]: https://github.com/chrisrzhou/RShiny-EC2Bootstrap
