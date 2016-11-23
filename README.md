@@ -113,7 +113,7 @@ restart shiny-server
 Install git
 
 ```bash
-yum install git-core
+yum install -y git-core
 ```
 
 And then mostly follow [these instructions][]. Especially as the sections 
@@ -136,7 +136,7 @@ future but you get the idea. You may have to do one of these
 ```
 sudo -i
 mkdir /etc/ssl/private/
-touch /etc/ssl/private/apache.key
+touch /etc/ssl/private/af.key
 openssl genrsa -out /etc/ssl/private/af.key 2048
 openssl req -new -x509 -key /etc/ssl/private/af.key -days 365 -sha256 -out /etc/ssl/certs/af.crt
 ```
@@ -147,7 +147,8 @@ This will ask you a few questions. The only crucial part is the Common Name. Her
 This is in `/etc/httpd/conf.d/af.conf` also remember to `mkdir /var/www/httpd`
 
 ```bash
-yum install httpd24
+yum install -y httpd24
+yum install -y mod24_ssl
 ```
 
 ```bash
