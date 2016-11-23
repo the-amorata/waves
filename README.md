@@ -121,10 +121,42 @@ openssl req -new -x509 -key /etc/ssl/private/apache.key -days 365 -sha256 -out /
 
 This will ask you a few questions. The only crucial part is the Common Name. Here you need to enter the public DNS name or the public IP of your AWS instance. Again, note, that normally you would enter a domain name that you own, e.g. ‘shiny.ipub.com’ in my case. If you are just goofing around, enter the public DNS of your instance.
 
+
+This is in `/etc/httpd/conf.d/af.conf`
+
 ```
 yum install httpd
 ```
 
+```
+ServerName 54.165.9.152
+Listen 8080
+
+<VirtualHost *:80>
+    Redirect permanent / https://54.165.9.152
+</VirtualHost>
+
+
+<VirtualHost *:8080>
+    <Location "/">
+        SetHandler server-status
+    </Location>
+</VirtualHost>
+
+<VirtualHost *:443>
+    DocumentRoot "/var/www/httpd"
+
+    <Location "/">
+        ProxyPass "http://localhost:3838/test/"
+    </Location>
+
+    SSLEngine On
+
+    SSLCertificateFile /etc/ssl/certs/af.crt
+    SSLCertificateKeyFile /etc/ssl/private/af.key
+</VirtualHost>
+```
+But also follow [this link] if necessary.
 
 ----------
 
@@ -134,3 +166,4 @@ yum install httpd
 [rstudio-server]: https://www.rstudio.com/products/rstudio/download-server/
 [these instructions]: http://r-pkgs.had.co.nz/git.html
 [the following instructions]: https://github.com/chrisrzhou/RShiny-EC2Bootstrap
+[this link]: http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/SSL-on-an-instance.html
