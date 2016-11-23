@@ -146,11 +146,11 @@ This will ask you a few questions. The only crucial part is the Common Name. Her
 
 This is in `/etc/httpd/conf.d/af.conf`
 
-```
+```bash
 yum install httpd
 ```
 
-```
+```bash
 ServerName 54.165.9.152
 Listen 8080
 
