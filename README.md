@@ -49,7 +49,7 @@ yum install -y --nogpgcheck rstudio-server-rhel-0.99.903-x86_64.rpm
 Install [Shiny][] (and other packages (from within `R` (but you MUST `sudo R`)))
 
 ```r
-pkgs = c('shiny', 'data.table',  'tuneR', 
+pkgs = c('shiny', 'data.table',  'tuneR', 'ggplot2',
          'colourpicker', 'extrafont', 'shinyjs')
 lapply(pkgs, install.packages); rm(pkgs)
 q()
@@ -137,17 +137,17 @@ future but you get the idea. You may have to do one of these
 sudo -i
 mkdir /etc/ssl/private/
 touch /etc/ssl/private/apache.key
-openssl genrsa -out /etc/ssl/private/apache.key 2048
-openssl req -new -x509 -key /etc/ssl/private/apache.key -days 365 -sha256 -out /etc/ssl/certs/apache.crt
+openssl genrsa -out /etc/ssl/private/af.key 2048
+openssl req -new -x509 -key /etc/ssl/private/af.key -days 365 -sha256 -out /etc/ssl/certs/af.crt
 ```
 
 This will ask you a few questions. The only crucial part is the Common Name. Here you need to enter the public DNS name or the public IP of your AWS instance. Again, note, that normally you would enter a domain name that you own, e.g. ‘shiny.ipub.com’ in my case. If you are just goofing around, enter the public DNS of your instance.
 
 
-This is in `/etc/httpd/conf.d/af.conf`
+This is in `/etc/httpd/conf.d/af.conf` also remember to `mkdir /var/www/httpd`
 
 ```bash
-yum install httpd
+yum install httpd24
 ```
 
 ```bash
@@ -155,7 +155,7 @@ ServerName 54.165.9.152
 Listen 8080
 
 <VirtualHost *:80>
-    Redirect permanent / https://54.165.9.152
+    Redirect permanent / https://54.165.9.152/
 </VirtualHost>
 
 
