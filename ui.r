@@ -3,7 +3,7 @@ source("~/apps/waves/util.r")
 df = c('#1b87e0','#ed635f','#6abf90','#ff814a','#8369a8','#f4de5b')
 waves_id = 21393505797
 shirt_sizes  = c('xs','s','m', 'l', 'xxl', 'xxxl')
-shirt_colors = c('white','ash','heather grey', 'black')
+shirt_colors = c('white','ash', 'black')
 image_sizes  = c('left pocket 3"x1.6"', 'across chest 11"x6"')
 
 jsCode <- "
@@ -24,6 +24,8 @@ fluidPage(
     column(3, align = 'center',
       fluidRow(column(12, 
         h1('W A V E S'),
+        p('select a graphic size, press the mic to record, then personalize. 
+           this DV only works on desktop (except for android chrome)'),
         selInput('image_size',  image_sizes, 'choose graphic size'),
         uiOutput('mic')
       )),
@@ -41,9 +43,7 @@ fluidPage(
       hr(),
       helpText(
         'comments, questions, issues?',
-        a('info@amoratadesigns.com', href = 'mailto:info@amoratadesigns.com'),
-        br(),
-        em('this visualization only works on desktop')
+        a('info@amoratadesigns.com', href = 'mailto:info@amoratadesigns.com')
       )
     ),
     column(9, align = 'center',

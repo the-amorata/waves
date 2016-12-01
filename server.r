@@ -77,9 +77,10 @@ function(input, output, session) {
     showModal(modalDialog(
       title = "samples",
       sample_ligtbox(),
-      easyClose = TRUE
+      easyClose = TRUE,
+      size = 'l'
     ))
-  })
+  }) 
 
   onclick("order", {
     fn = plot_wave(reactiveValuesToList(pp), x$mp3, input$image_size, TRUE) 

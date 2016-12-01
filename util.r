@@ -144,16 +144,15 @@ big_control_panel <- function() {
 sample_ligtbox <- function() {
   tags$div(
     fluidRow(
-      column(6, 
-        h4('white'),
-        img(src = 'mockup-7c89c719_1024x1024.png', height = '200px'),
-        h4('heather grey'),
-        img(src = 'mockup-a6917a09_1024x1024.png', height = '200px')),
-      column(6, 
-        h4('ash'),
-        img(src = 'mockup-6505a0fc_1024x1024.png', height = '200px'),
-        h4('black'),
-        img(src = 'mockup-50a57144_1024x1024.png', height = '200px'))
+      column(4, align = 'center',
+             h4('white'),
+             img(src = 'wave-white.jpg', height = '260px')),
+      column(4, align = 'center', 
+             h4('ash'),
+             img(src = 'wave-grey.jpg', height = '260px')),
+      column(4, align = 'center',
+             h4('black'),
+             img(src = 'wave-black.jpg', height = '260px'))
     )
   )
 }
