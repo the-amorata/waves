@@ -13,7 +13,7 @@
   font-weight: 500;
   line-height: 1.1;
   /*color: inherit;*/
-  color: #1c1d1d;
+  color: #4c4c4c;
 }
 
 label {
@@ -22,7 +22,7 @@ label {
   max-width: 100%;
   margin-bottom: 5px;
   font-weight: 700;
-  color: #1c1d1d;
+  color: #4c4c4c;
 }
 
 button, input, select, textarea {
@@ -41,31 +41,35 @@ button, input, select, textarea {
 
 body {
   font-family: Futura, Arial, sans-serif;
-  color: #1c1d1d;
+  color: #4c4c4c;
 }
 
 #order.btn-default {
     color: #fff;
-    background-color: #6784A9;
-    border-color: #6784A9;
+    background-color: #1b87e0;
+    border-color: #1b87e0;
     width: 100%;
 }
 
 .irs-bar {
     border-top: 1px solid #6784A9;
     border-bottom: 1px solid #6784A9;
-    background: #6784A9;
+    background: #1b87e0;
 }
 
 .irs-from, .irs-to, .irs-single {
-    background: #6784A9;
+    background: #1b87e0;
 }
 
 a {
     /*color: #337ab7;*/
-    color: #6784A9;
+    color: #1b87e0;
 }
 
 .progress-bar {
-  background-color: #6784A9;
+  background-color: #1b87e0;
+}
+
+#viz {
+  display: none;
 }

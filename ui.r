@@ -1,10 +1,10 @@
 source("~/apps/waves/util.r")
 
-df = c('#6784A9','#96CDC2','#F58C8D','#BC94C1','#C27186','#E7D49F')
+df = c('#1b87e0','#ed635f','#6abf90','#ff814a','#8369a8','#f4de5b')
 waves_id = 21393505797
-shirt_sizes  = c('', 'XS','S','M', 'L', '2XL', '3XL')
-shirt_colors = c('', 'White','Ash','Heather Grey', 'Black')
-image_sizes  = c('', 'Left Pocket (3X2)', 'Across Chest (10X12)')
+shirt_sizes  = c('xs','s','m', 'l', 'xxl', 'xxxl')
+shirt_colors = c('white','ash','heather grey', 'black')
+image_sizes  = c('left pocket 3"x1.6"', 'across chest 11"x6"')
 
 jsCode <- "
   shinyjs.order = function(params) {
@@ -18,48 +18,35 @@ fluidPage(
   
   useShinyjs(),
   extendShinyjs(text = jsCode, functions = c('order')),
+  head_html, 
   
   fluidRow(
-    column(4,
-      fluidRow(column(12, h1('W A V E S'))),
-      fluidRow(
-        column(6,
-          selectInput('image_size',  'Choose A Product',  image_sizes)),
-        column(6,
-          fileInput('mp3', 
-                    'Upload An MP3 File', 
-                    accept=c('audio/mp3', '.mp3')))
-      ),
+    column(3, align = 'center',
+      fluidRow(column(12, 
+        h1('W A V E S'),
+        selInput('image_size',  image_sizes, 'choose graphic size'),
+        uiOutput('mic')
+      )),
       
       uiOutput('control_panel'),
       
-      fluidRow(
-        column(6, selectInput('shirt_size',  'Shirt Size:',  shirt_sizes)),
-        column(6, selectInput('shirt_color', 'Shirt Color:', shirt_colors))
-      ),
-      fluidRow(
-        column(8, uiOutput('button')),
-        column(4, actionLink('example', 'Samples'))
-      ),
+      fluidRow(column(12, align = 'center',
+        selInput('shirt_size',  shirt_sizes, 'shirt size'),
+        selInput('shirt_color', shirt_colors, 'shirt color')
+      )),
+      fluidRow(column(12, align = 'center',
+        actionLink('example', 'samples'), br(),
+        uiOutput('button')
+      )),
       hr(),
       helpText(
-        "Don't have an MP3?",
-        a("Use a YouTube video", 
-          href = 'http://www.youtube-mp3.org/',
-          target='_blank'),
-        br(),
-        'File not an MP3?', 
-        a("Convert it.", 
-          href='http://audio.online-convert.com/convert-to-mp3', 
-          target="_blank"), 
-        br(),
-        'Comments, Questions, Issues?',
+        'comments, questions, issues?',
         a('info@amoratadesigns.com', href = 'mailto:info@amoratadesigns.com'),
         br(),
-        em('*This site currently only works on desktop. Mobile coming soon.')
+        em('this visualization only works on desktop')
       )
     ),
-    column(8, align = 'center',
+    column(9, align = 'center',
       plotOutput('wave', height = 'auto', width = '90%')
     )
   )
