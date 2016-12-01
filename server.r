@@ -1,5 +1,5 @@
 source("~/apps/waves/util.r")
-
+ 
 function(input, output, session) { 
   
   #Plot Parameters
@@ -84,7 +84,7 @@ function(input, output, session) {
   })
 
   onclick("order", {
-    fn = plot_wave(reactiveValuesToList(pp), TRUE)
+    fn = plot_wave(reactiveValuesToList(pp), x$mp3, input$image_size, TRUE)
     js$order(mk_url(fn, input$shirt_size, input$shirt_color, input$image_size))
   })
       

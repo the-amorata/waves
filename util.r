@@ -77,7 +77,7 @@ big_plot <- function(rv, mp3) {
 
 plot_wave <- function(rv, mp3, img_size, save = FALSE) {
   set_par(rv$lab)
-  if (save == TRUE) {fn = save_wave(rv)}
+  if (save == TRUE) {fn = save_wave(rv, mp3)}
   if (img_size == 'left pocket 3"x1.6"') small_plot(rv, mp3)
   if (img_size == 'across chest 11"x6"') big_plot(rv, mp3)
   if (save == TRUE) {dev.off(); fn}
