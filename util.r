@@ -2,9 +2,13 @@ pkgs = c('shiny', 'data.table',  'tuneR',
          'colourpicker', 'extrafont', 'shinyjs')
 lapply(pkgs, library, character.only = TRUE); rm(pkgs)
 
-ex <- list(lab = 'yoo', hex = '#6784A9', det = '+1', fam = 'Medium', fl = 1,
-           mag = 3, lw = 3, is = 'Left Pocket (3X2)', ss = 'M', sc = 'Black',
+ex <- list(lab = 'yoo', hex = '#1b87e0', det = '+1', fam = 'medium', fl = 1,
+           mag = 3, lw = 3, is = 'left pocket 3"x1.6', ss = 'm', sc = 'black',
            mp3 = list(datapath = '~/apps/waves/Adventure.mp3', name = 'Aventure.mp3'))
+
+hex_ref <- data.table(web   = c('#1B87E0','#ED635F','#6ABF90','#FF814A','#8369A8','#F4DE5B'),
+                      white = c('#489CFF','#FF645C','#52FF80','#E1AF2E','#CD00DD','#FFDF22'),
+                      black = c('#0068B1','#FF6464','#52FF80','#E19933','#D970FF','#FFFF2B'))
 
 mk_obj_filename <- function(data) {
 # Sys.time() <- as.POSIXct(as.integer(Sys.time()), origin="1970-01-01")
@@ -51,35 +55,49 @@ save_wave <- function(rv, mp3) {
   return(rv)
 }
 
-small_plot <- function(rv, mp3) {
+small_plot <- function(rv, mp3, save) {
+  if (save == TRUE) {
+    sub_dt = hex_ref[web == rv$hex]
+    hex = ifelse(rv$sc == 'black', sub_dt[,black], sub_dt[,white])
+  } else {
+    hex = rv$hex
+  }
+  
   plot(mono(mp3), 
        #Label Options
        xlab = rv$lab, cex.lab = 4, axes = FALSE, ylab = '', 
        #Text Options
-       font.lab = 4, family = 'Futura Md BT', col.lab = rv$hex,
+       font.lab = 4, family = 'Futura Md BT', col.lab = hex,
        #Line Options
-       col = rv$hex, nr = nrs(rv$det), lwd = (3-as.numeric(rv$det))*2)
+       col = hex, nr = nrs(rv$det), lwd = (3-as.numeric(rv$det))*2)
 }
 
-big_plot <- function(rv, mp3) {
+big_plot <- function(rv, mp3, save) {
   mag = seq(2, 4, (4 - 2)/(5 - 1))[rv$mag]
   fam = switch(rv$fam, medium = 'Futura Md BT', light = 'Futura Lt BT')
   fl  = switch(rv$fl, regular = 1, bold = 2, italic = 3, both = 4)
+  
+  if (save == TRUE) {
+    sub_dt = hex_ref[web == rv$hex]
+    hex = ifelse(rv$sc == 'black', sub_dt[,black], sub_dt[,white])
+  } else {
+    hex = rv$hex
+  }
   
   plot(mono(mp3), 
        #Label Options
        xlab = rv$lab, cex.lab = mag, axes = FALSE, ylab = '', 
        #Text Options
-       font.lab = fl, family = fam, col.lab = rv$hex,
+       font.lab = fl, family = fam, col.lab = hex,
        #Line Options
-       col = rv$hex, nr = nrs(rv$det), lwd = rv$lw)
+       col = hex, nr = nrs(rv$det), lwd = rv$lw)
 }
 
 plot_wave <- function(rv, mp3, img_size, save = FALSE) {
   set_par(rv$lab)
   if (save == TRUE) {fn = save_wave(rv, mp3)}
-  if (img_size == 'left pocket 3"x1.6"') small_plot(rv, mp3)
-  if (img_size == 'across chest 11"x6"') big_plot(rv, mp3)
+  if (img_size == 'left pocket 3"x1.6"') small_plot(rv, mp3, save)
+  if (img_size == 'across chest 11"x6"') big_plot(rv, mp3, save)
   if (save == TRUE) {dev.off(); fn}
 }
 
@@ -95,7 +113,7 @@ small_control_panel <- function() {
                                  palette = 'limited',
                                  allowedCols = df,
                                  showColour = 'background'),
-       textInput('lab', 'title', value = '', placeholder = '(optional)')
+       textInput('lab', NULL, value = '', placeholder = 'title (optional)')
     ))
   )
 }
@@ -111,7 +129,7 @@ big_control_panel <- function() {
                   allowedCols = df,
                   showColour = 'background'),
       sliderInput('lw', 'line thickness', 1, 10, 1, 1),
-      textInput('lab', 'title', value = '', placeholder = '(optional)'),
+      textInput('lab', NULL, value = '', placeholder = 'title (optional)'),
       conditionalPanel(
         "input.lab !== ''",
         fluidRow(

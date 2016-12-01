@@ -14,14 +14,12 @@ function(input, output, session) {
     pp$fam <- input$fam
     pp$fl  <- input$fl
     pp$lw  <- input$lw
-    # pp$is  <- input$image_size
     pp$ss  <- input$shirt_size
     pp$sc  <- input$shirt_color
-    # x$states <- 0
   })
   
-  
   observeEvent(input$audio, {
+    x$mp3 <- NULL
     audio <- gsub(' ', '+', gsub('data:audio/wav;base64,', '', input$audio))
     audio <- openssl::base64_decode(audio)
     
@@ -84,7 +82,7 @@ function(input, output, session) {
   })
 
   onclick("order", {
-    fn = plot_wave(reactiveValuesToList(pp), x$mp3, input$image_size, TRUE)
+    fn = plot_wave(reactiveValuesToList(pp), x$mp3, input$image_size, TRUE) 
     js$order(mk_url(fn, input$shirt_size, input$shirt_color, input$image_size))
   })
       

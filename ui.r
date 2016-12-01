@@ -35,7 +35,7 @@ fluidPage(
         selInput('shirt_color', shirt_colors, 'shirt color')
       )),
       fluidRow(column(12, align = 'center',
-        actionLink('example', 'samples'), br(),
+        actionLink('example', 'samples'), hr(),
         uiOutput('button')
       )),
       hr(),
