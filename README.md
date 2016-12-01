@@ -57,7 +57,7 @@ Install [Shiny][] (and other packages (from within `R` (but you MUST `sudo R`)))
 
 ```r
 pkgs = c('shiny', 'data.table',  'tuneR', 'ggplot2',
-         'colourpicker', 'extrafont', 'shinyjs')
+         'colourpicker', 'extrafont', 'shinyjs', 'httr')
 lapply(pkgs, install.packages); rm(pkgs)
 q()
 ```
