@@ -17,9 +17,9 @@ mk_obj_filename <- function(data) {
 rm_punct <- function(x) gsub('[[:punct:]]| |.mp3$', '', x)
 mk_filename <- function(x) paste(rm_punct(x), collapse = '_')
 
-mk_url <- function(img_file, ss, sc, gs) {
-  url_base = 'http://amorata.myshopify.com/cart/21393505797:1?'
-  file_base = 'http://amorata-dev.com:8787/files/apps/waves/plots/'
+mk_url <- function(img_file, ss, sc, gs, q) {
+  url_base = paste0('http://amorata.myshopify.com/cart/21393505797:', q, '?')
+  file_base = 'http://amorata-apps.com:8787/files/apps/waves/plots/'
   
   img_attr = paste0('attributes[img-file]=', file_base, img_file)
   ss_attr = paste0('attributes[shirt-size]=', ss)
@@ -31,12 +31,6 @@ mk_url <- function(img_file, ss, sc, gs) {
   paste0(url_base, all_attr)
 }
 
-# mk_url <- function(x) {
-#   url_base = 'http://amorata.myshopify.com/cart/21393505797:1?note='
-#   pattern = '~/apps/waves/plots/|.png'
-#   paste0(url_base, gsub(pattern, '', x))
-# }
-
 nrs <- function(x) {
   floor(2500/switch(x, '+2'=1, '+1'=7, '0'=15, '-1'=30, '-2'=55))
 }
@@ -47,11 +41,13 @@ set_par <- function(x) {
 }
 
 save_wave <- function(rv, mp3) {
+  # source("~/apps/waves/src/s3.R", local = TRUE)
   i = 10; w = 300*i; h = w*(2/3)
   new_fn = mk_obj_filename(mp3)
   rv = paste0(new_fn, '.png')
   fn = paste0('~/apps/waves/plots/', rv)
   png(file=fn, width=w, height=h, res=300)
+  # s3put(fn, paste0("waves/", fn))
   return(rv)
 }
 
@@ -184,7 +180,6 @@ head_html <- tags$head(HTML("
     #save, #save img { height: 10vh; }
     #save { opacity: 0.25; display: none;}
     #save[download] { opacity: 1;}
-    
   
   </style>"
   )

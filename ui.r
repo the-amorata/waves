@@ -34,7 +34,8 @@ fluidPage(
       
       fluidRow(column(12, align = 'center',
         selInput('shirt_size',  shirt_sizes, 'shirt size'),
-        selInput('shirt_color', shirt_colors, 'shirt color')
+        selInput('shirt_color', shirt_colors, 'shirt color'),
+        numericInput('q', 'quantity', 1, min = 1, step = 1)
       )),
       fluidRow(column(12, align = 'center',
         actionLink('example', 'samples'), hr(),
