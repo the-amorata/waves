@@ -85,3 +85,19 @@ a {
 .table>tbody>tr>td {
   border-top: 0px solid #ddd;
 }
+
+#garment img {
+  width: 300px;
+}
+
+#image_size img {
+  width: 300px;
+}
+
+/*.panel[value="personalize"] {
+  background-color: #ddd;
+}*/
+
+/*.panel[value="review"] {
+  background-color: #ddd;
+}*/

@@ -1,8 +1,10 @@
 source("~/apps/waves/util.r")
 
+ids = c('21393505797', '24373225925', '24373305733')
+ 
 function(input, output, session) { 
   
-  #Plot Parameters
+  ### PARAMETERS ###
   pp <- reactiveValues()
   x <- reactiveValues()
   
@@ -39,9 +41,9 @@ function(input, output, session) {
     w = session$clientData$output_sample_wave_width; h = w*(2/3)
     outfile = tempfile(fileext='.png')
     
-    # Generate a png
     png(file = outfile, width = 1200, height = 800, res = 120)
-    sample_plot(x$mp3,  input$image_size)
+    # sample_plot(x$mp3,  input$image_size)
+    sample_plot(x$mp3)
     dev.off()
     
     # Return a list
@@ -52,6 +54,8 @@ function(input, output, session) {
   }, deleteFile = TRUE)
   
   ### PERSONALIZE ###
+  
+  output$hex_test <- renderPrint({input$hex})
   
   output$control_panel <- renderUI({
     validate(need(x$mp3, ''))
@@ -101,8 +105,7 @@ function(input, output, session) {
   observeEvent(input$rm_btn, {if (counter$n > 1) counter$n <- counter$n - 1})
   
   output$details <- renderUI({
-    validate(need(x$mp3, 'record/upload an mp3'))
-    lapply(seq_len(counter$n), function(x) render_detail_row(x))
+    lapply(seq_len(counter$n), function(x) render_detail_row(x, input$garment, input$hex))
   })
   
   order_details <- reactive({
@@ -121,28 +124,36 @@ function(input, output, session) {
     sum(qs)
   })
   
-  output$od_test <- renderPrint({order_details()})
-  output$tq_test <- renderPrint({total_quantity()})
-  output$an_test <- renderPrint({no_null_details()})
-  
   output$details_card <- renderUI({
     validate(need(x$mp3, 'record/upload an mp3'))
+    validate(need(input$hex, 'personalize image'))
+    validate(need(input$garment, 'choose garment size'))
+    validate(need(input$image_size, 'choose image size'))
+
     fluidRow(
-      p('select shirt color, size, and quantity'),
-      column(3,
-             fluidRow(
-               column(6, actionButton('add_btn', NULL, icon = icon('plus'), width = '100%')),
-               column(6, actionButton('rm_btn', NULL, icon = icon('minus'),  width = '100%'))
-             )
-      ),
-      column(9, uiOutput('details')),
+      p('select color, size, and quantity'),
       fluidRow(
-        column(6, offset = 3,
-               fluidRow(
-                 column(4, actionLink('example', 'samples')),
-                 column(4, a('size guide', href = 'https://www.amoratadesigns.com/pages/size-guide', target = '_blank')),
-                 column(4, a('bundles', href = 'https://www.amoratadesigns.com/pages/bundles',  target = '_blank'))
-               )
+        column(
+          8, 
+          offset = 2,
+          uiOutput('details'),
+          p('want this in another size or color?'),
+          fluidRow(
+            column(6, actionButton('add_btn', NULL, icon = icon('plus'), width = '50%')),
+            column(6, actionButton('rm_btn', NULL, icon = icon('minus'), width = '50%'))
+          )
+        )
+      ),
+      hr(),
+      fluidRow(
+        column(
+          6, 
+          offset = 3,
+          fluidRow(
+            column(4, actionLink('example', 'samples')),
+            column(4, actionLink('size_guide', 'size guide')),
+            column(4, actionLink('bundles', 'bundles'))
+          )
         )
       )
     )
@@ -152,6 +163,24 @@ function(input, output, session) {
     showModal(modalDialog(
       title = "samples",
       sample_ligtbox(),
+      easyClose = TRUE,
+      size = 'l'
+    ))
+  })
+  
+  observeEvent(input$size_guide, {
+    showModal(modalDialog(
+      title = "size guide",
+      fluidRow(column(12, align = 'center', img(src = "sizeguide.jpg", width = '80%'))),
+      easyClose = TRUE,
+      size = 'l'
+    ))
+  })
+  
+  observeEvent(input$bundles, {
+    showModal(modalDialog(
+      title = "bundles",
+      fluidRow(column(12, align = 'center', img(src = "discount.jpg", width = '80%'))),
       easyClose = TRUE,
       size = 'l'
     ))
@@ -189,43 +218,54 @@ function(input, output, session) {
   }, deleteFile = TRUE)
   
   output$details_summary <- renderTable({
-    y = c(paste(total_quantity(), 'shirts (total)'), order_details())
+    lab = paste0(gsub('_', ' ', input$garment), 's', ' (total)')
+    y = c(paste(total_quantity(), lab), order_details(), input$image_size)
     x = c('order summary:', rep('', length(y) - 1))
     data.table(x = x, y = y)
   }, align = 'cc', colnames = FALSE, bordered = FALSE, striped = FALSE)
   
   output$checkout <- renderUI({
     validate(need(x$mp3, 'record/upload an mp3'))
-    validate(need(no_null_details(), 'please fill all fields in step 4'))
+    validate(need(input$hex, 'personalize image'))
+    validate(need(input$garment, 'choose garment size'))
+    validate(need(input$image_size, 'choose image size'))
+    validate(need(no_null_details(), 'please fill all fields in "details"'))
     fluidRow(
-      em('heads up, what you see here will be printed. what do you want to do?'),
-      imageOutput('wave_confirmation', height = 'auto', width = '60%'),
-      br(),
+      fluidRow(
+        column(
+          8, 
+          offset = 2, 
+          align = 'center',
+          em('heads up, what you see here will be printed.'),
+          br(),
+          em('what do you want to do?'),
+          imageOutput('wave_confirmation', height = 'auto', width = '90%')
+        )
+      ),
       fluidRow(
         tableOutput('details_summary'),
-        column(8, offset = 2,
-               fluidRow(
-                 column(6, actionButton('order', "PROCEED TO CHECKOUT")),
-                 column(6, actionButton('open_personalize', "CONTINUE PERSONALIZING"))
-               )
-               # ,verbatimTextOutput('od_test')
-               # ,verbatimTextOutput('tq_test')
-               # ,verbatimTextOutput('url_test')
-               # ,verbatimTextOutput('an_test')
+        column(
+          8, 
+          offset = 2,
+          fluidRow(
+            column(6, actionButton('order', "PROCEED TO CHECKOUT")),
+            column(6, actionButton('open_personalize', "CONTINUE PERSONALIZING"))
+          )
         )
       )
     )
   })
   
-  output$url_test <- renderPrint({mk_url('idk.png', order_details(), total_quantity())})
+  
   
   observeEvent(input$order, {
     fn = plot_wave(reactiveValuesToList(pp), x$mp3, input$image_size, TRUE)
-    js$order(mk_url(fn, order_details(), total_quantity(),  input$image_size))
+    id = ids[which(input$garment == c('tee', 'hoodie', 'long-sleeve'))]
+    js$order(mk_url(fn, order_details(), id, total_quantity(), input$image_size))
   })
   
   observeEvent(input$open_personalize, {
-    updateCollapse(session, 'main', open = '3. personalize', close = 'review')
+    updateCollapse(session, 'main', open = 'personalize', close = 'review')
   })
   
 }
